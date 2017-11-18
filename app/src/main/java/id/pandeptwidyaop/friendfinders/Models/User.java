@@ -1,5 +1,7 @@
 package id.pandeptwidyaop.friendfinders.Models;
 
+import com.google.gson.Gson;
+
 /**
  * Created by John Doe on 11/18/2017.
  */
@@ -33,5 +35,11 @@ public class User {
         this.imageUrl = imageUrl;
     }
 
+    public String toJson(){
+        return new Gson().toJson(this);
+    }
 
+    public User fromJson(String json){
+        return new Gson().fromJson(json,User.class);
+    }
 }

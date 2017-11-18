@@ -12,9 +12,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.pandeptwidyaop.friendfinders.Adapters.UserAdapter;
+import id.pandeptwidyaop.friendfinders.Adapters.UserClickListener;
 import id.pandeptwidyaop.friendfinders.Models.User;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements UserClickListener {
 
     @BindView(R.id.rvUsers) RecyclerView recyclerViewUser;
     private UserAdapter userAdapter;
@@ -32,15 +33,22 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this,2);
         recyclerViewUser.setLayoutManager(layoutManager);
         recyclerViewUser.setAdapter(userAdapter);
+
+        userAdapter.setItemClickListener(this);
         seedUsers();
     }
 
     private void seedUsers(){
         List<User> tempUserList = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             User user = new User("User "+i,"https://randomuser.me/api/portraits/men/"+i+".jpg");
             tempUserList.add(user);
         }
         userAdapter.setUsers(tempUserList);
+    }
+
+    @Override
+    public void onUserItemCliked(User user) {
+        DetailActivity.start(this,user.toJson());
     }
 }
